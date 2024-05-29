@@ -1,0 +1,60 @@
+return {}
+-- return {
+--   'akinsho/flutter-tools.nvim',
+--   lazy = false,
+--   dependencies = {
+--     'nvim-lua/plenary.nvim',
+--     'stevearc/dressing.nvim', -- optional for vim.ui.select
+--   },
+--   ft = 'dart',
+--   config = function()
+--     require('flutter-tools').setup {
+--       debugger = {
+--         enabled = true,
+--         run_via_dap = true,
+--         exception_breakpoints = {},
+--         register_configurations = function()
+--           local dap = require 'dap'
+--           local dap_helper = require 'custom.helpers.dapfunc'
+--
+--           dap.configurations.dart = {
+--             {
+--               type = 'dart',
+--               request = 'launch',
+--               name = 'Launch dart',
+--               program = 'bin/wl_generator.dart',
+--               cwd = '${workspaceFolder}',
+--               toolArgs = { 'publish', 'hoodoo' },
+--               -- toolArgs = dap_helper.set_env,
+--             },
+--             {
+--               type = 'dart',
+--               request = 'launch',
+--               name = 'Launch main',
+--               program = 'lib/main.dart',
+--               cwd = '${workspaceFolder}',
+--               toolArgs = dap_helper.set_env,
+--             },
+--             {
+--               type = 'dart',
+--               request = 'launch',
+--               name = 'Launch example',
+--               program = '${workspaceFolder}/lib/main.dart',
+--               cwd = '${workspaceFolder}/example',
+--               toolArgs = dap_helper.set_env,
+--             },
+--             {
+--               type = 'dart',
+--               request = 'launch',
+--               name = 'Launch relative',
+--               cwd = dap_helper.input_cwd,
+--               program = 'lib/main.dart',
+--               toolArgs = dap_helper.set_env,
+--             },
+--           }
+--         end,
+--       },
+--     }
+--     require('flutter-tools.lsp').attach()
+--   end,
+-- }
