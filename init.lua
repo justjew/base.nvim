@@ -126,6 +126,8 @@ vim.opt.cindent = true
 
 -- Disable word wrapping
 vim.opt.wrapmargin = 0
+vim.wo.wrap = true
+vim.wo.linebreak = true
 
 -- Save undo history
 vim.opt.undofile = true
@@ -171,10 +173,10 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -226,26 +228,6 @@ end, { desc = 'Restore session' })
 vim.keymap.set('n', '<leader>ww', '<cmd>w<cr>', { desc = 'Write' })
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<cr>', { desc = 'Write all' })
 vim.keymap.set('n', '<leader>wq', '<cmd>wa<cr><cmd>qa<cr>', { desc = 'Write all and quit' })
-
--- Trouble
-vim.keymap.set('n', '<leader>xx', function()
-  require('trouble').open()
-end, { desc = 'Open Trouble' })
-vim.keymap.set('n', '<leader>xw', function()
-  require('trouble').open 'workspace_diagnostics'
-end, { desc = 'Open Trouble on workspace' })
-vim.keymap.set('n', '<leader>xd', function()
-  require('trouble').open 'document_diagnostics'
-end, { desc = 'Open Troule on file' })
-vim.keymap.set('n', '<leader>xq', function()
-  require('trouble').open 'quickfix'
-end, { desc = 'Open quickfix Trouble' })
-vim.keymap.set('n', '<leader>xl', function()
-  require('trouble').open 'loclist'
-end, { desc = 'Loclist?' })
-vim.keymap.set('n', 'gR', function()
-  require('trouble').open 'lsp_references'
-end, { desc = 'LSP references' })
 
 -- Flutter
 vim.keymap.set('n', '<Leader>dr', ':FlutterReload<CR>', { desc = 'Flutter hot reload' })
@@ -338,28 +320,30 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
+    -- tag = 'v2.1.0',
+    commit = '0539da0',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
 
       -- Document existing key chains
       require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>b'] = { name = '[b]uffer', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-        ['<leader>x'] = { name = '[X] Debug', _ = 'which_key_ignore' },
-        ['<leader>q'] = { name = '[Q]uit', _ = 'which_key_ignore' },
+        { '<leader>b', group = '[b]uffer' },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>h', group = 'Git [H]unk' },
+        { '<leader>q', group = '[Q]uit' },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>t', group = '[T]oggle' },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>x', group = '[X] Debug' },
       }
       -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
+      -- require('which-key').register({
+      --   ['<leader>h'] = { 'Git [H]unk' },
+      -- }, { mode = 'v' })
     end,
   },
 
@@ -420,11 +404,14 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+
+          layout_strategy = 'vertical',
+          layout_config = { height = 0.95, width = 0.6 },
+          --   mappings = {
+          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          --   },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -850,16 +837,66 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+    'catppuccin/nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
+    config = function()
+      require('catppuccin').setup {
+        flavour = 'mocha', -- latte, frappe, macchiato, mocha
+        background = { -- :h background
+          light = 'latte',
+          dark = 'mocha',
+        },
+        transparent_background = false, -- disables setting the background color.
+        show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+        term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = false, -- dims the background color of inactive window
+          shade = 'dark',
+          percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false, -- Force no italic
+        no_bold = false, -- Force no bold
+        no_underline = false, -- Force no underline
+        styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { 'italic' }, -- Change the style of comments
+          conditionals = { 'italic' },
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+          -- miscs = {}, -- Uncomment to turn off hard-coded styles
+        },
+        color_overrides = {},
+        custom_highlights = {},
+        default_integrations = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          notify = false,
+          mini = {
+            enabled = true,
+            indentscope_color = '',
+          },
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+        },
+      }
+    end,
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'catppuccin'
 
       -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+      -- vim.cmd.hi 'Comment gui=none'
     end,
   },
 
@@ -915,9 +952,9 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        -- additional_vim_regex_highlighting = { 'ruby' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      -- indent = { enable = true, disable = { 'ruby' } },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -980,23 +1017,25 @@ require('lazy').setup({
   },
 })
 
-require('lspconfig').dartls.setup {
-  cmd = { 'dart', 'language-server', '--protocol=lsp' },
-  filetypes = { 'dart' },
-  init_options = {
-    closingLabels = true,
-    flutterOutline = true,
-    onlyAnalyzeProjectsWithOpenFiles = true,
-    outline = true,
-    suggestFromUnimportedLibraries = true,
-  },
-  settings = {
-    dart = {
-      completeFunctionCalls = true,
-      showTodos = true,
-    },
-  },
-}
+-- require('lspconfig').dartls.setup {
+--   cmd = { 'dart', 'language-server', '--protocol=lsp' },
+--   filetypes = { 'dart' },
+--   init_options = {
+--     closingLabels = true,
+--     flutterOutline = true,
+--     onlyAnalyzeProjectsWithOpenFiles = true,
+--     outline = true,
+--     suggestFromUnimportedLibraries = true,
+--   },
+--   settings = {
+--     dart = {
+--       completeFunctionCalls = true,
+--       showTodos = true,
+--     },
+--   },
+-- }
+
+require('lspconfig').lemminx.setup {}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

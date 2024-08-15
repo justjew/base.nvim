@@ -77,7 +77,7 @@ return {
             key = 's',
             keymap = 'SPC q s',
             key_hl = 'Number',
-            action = ':lua require("persistence").load()',
+            action = ':lua require("persistence").load({ last = true })',
           },
           {
             icon = ' ',
