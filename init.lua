@@ -1,4 +1,6 @@
-require 'config.*'
+require 'config.vim'
+require 'config.autocmd'
+require 'config.mappings'
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
