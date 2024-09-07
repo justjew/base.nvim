@@ -7,7 +7,6 @@
 -- kickstart.nvim and not kitchen-sink.nvim ;)
 
 return {
-  -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
   -- NOTE: And you can specify dependencies as well
   dependencies = {
@@ -26,6 +25,7 @@ return {
   },
   config = function()
     local dap = require 'dap'
+    local daprepl = require 'dap.repl'
     local dapui = require 'dapui'
 
     require('mason-nvim-dap').setup {
@@ -41,17 +41,35 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        -- 'delve',
       },
     }
-
+    -- require'dap.repl'.execute('.hot-reload')
     -- Basic debugging keymaps, feel free to change to your liking!
-    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
     vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
     vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
     vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
-    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
-    vim.keymap.set('n', '<leader>B', function()
+    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
+    vim.keymap.set('n', '<F8>', dap.terminate, { desc = 'Debug: Terminate' })
+    vim.keymap.set('n', '<F9>', function()
+      vim.bo.modifiable = true
+      vim.api.nvim_buf_set_lines(0, 0, -1, true, {})
+    end, { desc = 'Debug: Clean REPL' })
+
+    vim.keymap.set('n', '<leader>di', dapui.eval, { desc = 'Debug: Evaluate expression' })
+    vim.keymap.set('v', '<leader>di', dapui.eval, { desc = 'Debug: Evaluate expression' })
+
+    vim.keymap.set('n', '<leader>dr', function()
+      daprepl.execute '.hot-reload'
+    end, { desc = 'Debug: Flutter Hot Reload' })
+
+    vim.keymap.set('n', '<leader>dR', function()
+      daprepl.execute '.hot-restart'
+    end, { desc = 'Debug: Flutter Hot Restart' })
+
+    vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Debug: Toggle Breakpoint' })
+
+    vim.keymap.set('n', '<leader>dB', function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end, { desc = 'Debug: Set Breakpoint' })
 
@@ -75,22 +93,69 @@ return {
           disconnect = '⏏',
         },
       },
+      layouts = {
+        {
+          elements = {
+            {
+              id = 'scopes',
+              size = 0.3,
+            },
+            {
+              id = 'breakpoints',
+              size = 0.2,
+            },
+            {
+              id = 'stacks',
+              size = 0.3,
+            },
+            {
+              id = 'watches',
+              size = 0.2,
+            },
+          },
+          position = 'left',
+          size = 25,
+        },
+        {
+          elements = {
+            {
+              id = 'repl',
+              size = 0.85,
+            },
+            {
+              id = 'console',
+              size = 0.15,
+            },
+          },
+          position = 'bottom',
+          size = 15,
+        },
+      },
     }
 
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    vim.keymap.set('n', '<leader>dl', function()
+      dapui.toggle {
+        layout = 2,
+      }
+    end, { desc = 'Debug: Show REPL layout' })
 
-    -- Install golang specific config
-    require('dap-go').setup {
-      delve = {
-        -- On Windows delve must be run attached or it crashes.
-        -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-        detached = vim.fn.has 'win32' == 0,
-      },
-    }
+    vim.keymap.set('n', '<leader>dk', function()
+      dapui.toggle {
+        layout = 1,
+      }
+    end, { desc = 'Debug: Show REPL layout' })
+
+    -- dap.listeners.after.event_initialized['dapui_config'] = function()
+    --   dapui.toggle {
+    --     layout = 2,
+    --   }
+    -- end
+    -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+    -- dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+    vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
   end,
 }

@@ -10,8 +10,28 @@ return {
     require('flutter-tools').setup {
       flutter_path = nil,
       flutter_lookup_cmd = 'asdf where flutter',
-      statusline = {
-        app_version = true,
+      decorations = {
+        statusline = {
+          -- set to true to be able use the 'flutter_tools_decorations.app_version' in your statusline
+          -- this will show the current version of the flutter app from the pubspec.yaml file
+          app_version = true,
+          -- set to true to be able use the 'flutter_tools_decorations.device' in your statusline
+          -- this will show the currently running device if an application was started with a specific
+          -- device
+          device = true,
+          -- set to true to be able use the 'flutter_tools_decorations.project_config' in your statusline
+          -- this will show the currently selected project configuration
+          project_config = true,
+        },
+      },
+      debugger = {
+        enabled = true,
+        run_via_dap = true,
+        exception_breakpoints = {},
+        -- register_configurations = function(_)
+        --   require('dap').configurations.dart = {}
+        --   require('dap.ext.vscode').load_launchjs()
+        -- end,
       },
       lsp = {
         color = { -- show the derived colours for dart variables
@@ -23,53 +43,11 @@ return {
           virtual_text_str = '■', -- the virtual text character to highlight
         },
       },
+      outline = {
+        open_cmd = '30vnew', -- command to use to open the outline buffer
+        auto_open = false, -- if true this will open the outline automatically when it is first populated
+      },
     }
     require('flutter-tools.lsp').attach()
   end,
 }
-
--- debugger = {
---   enabled = true,
---   run_via_dap = true,
---   exception_breakpoints = {},
---   register_configurations = function()
---     local dap = require 'dap'
---     local dap_helper = require 'custom.helpers.dapfunc'
---
---     dap.configurations.dart = {
---       {
---         type = 'dart',
---         request = 'launch',
---         name = 'Launch dart',
---         program = 'bin/wl_generator.dart',
---         cwd = '${workspaceFolder}',
---         toolArgs = { 'publish', 'hoodoo' },
---         -- toolArgs = dap_helper.set_env,
---       },
---       {
---         type = 'dart',
---         request = 'launch',
---         name = 'Launch main',
---         program = 'lib/main.dart',
---         cwd = '${workspaceFolder}',
---         toolArgs = dap_helper.set_env,
---       },
---       {
---         type = 'dart',
---         request = 'launch',
---         name = 'Launch example',
---         program = '${workspaceFolder}/lib/main.dart',
---         cwd = '${workspaceFolder}/example',
---         toolArgs = dap_helper.set_env,
---       },
---       {
---         type = 'dart',
---         request = 'launch',
---         name = 'Launch relative',
---         cwd = dap_helper.input_cwd,
---         program = 'lib/main.dart',
---         toolArgs = dap_helper.set_env,
---       },
---     }
---   end,
--- },

@@ -20,3 +20,10 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- Auto open neo-tree
+-- vim.api.nvim_create_autocmd('BufEnter', {
+--   desc = 'Open NeoTree on buffer enter',
+--   -- group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+--   callback = '<cmd>Neotree show<cr>',
+-- })

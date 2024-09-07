@@ -6,8 +6,8 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
--- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
--- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
 -- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -39,23 +39,18 @@ vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')
 vim.keymap.set('n', '<leader>go', ':Neotree float git_status<CR>')
 
 -- Movings
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selected line down' })
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selected line down' })
+-- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selected line down' })
+-- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selected line down' })
 
 -- Pane resize
-vim.keymap.set('n', '<S-Right>', ':vertical resize +5<CR>')
-vim.keymap.set('n', '<S-Left>', ':vertical resize -5<CR>')
-vim.keymap.set('n', '<S-Up>', ':res +5<CR>')
-vim.keymap.set('n', '<S-Down>', ':res -5<CR>')
+vim.keymap.set('n', '<S-Right>', ':vertical resize +2<CR>')
+vim.keymap.set('n', '<S-Left>', ':vertical resize -2<CR>')
+vim.keymap.set('n', '<S-Up>', ':res +2<CR>')
+vim.keymap.set('n', '<S-Down>', ':res -2<CR>')
 
 -- Quit vim
 vim.keymap.set('n', '<leader>qq', '<cmd>q<cr>', { desc = 'Quit' })
 vim.keymap.set('n', '<leader>qa', '<cmd>qa!<cr>', { desc = 'Quit all' })
-
--- Restore session
-vim.keymap.set('n', '<leader>qs', function()
-  require('persistence').load()
-end, { desc = 'Restore session' })
 
 -- Saving
 vim.keymap.set('n', '<leader>ww', '<cmd>w<cr>', { desc = 'Write' })
@@ -63,6 +58,6 @@ vim.keymap.set('n', '<leader>wa', '<cmd>wa<cr>', { desc = 'Write all' })
 vim.keymap.set('n', '<leader>wq', '<cmd>wa<cr><cmd>qa<cr>', { desc = 'Write all and quit' })
 
 -- Flutter
-vim.keymap.set('n', '<Leader>dr', ':FlutterReload<CR>', { desc = 'Flutter hot reload' })
-vim.keymap.set('n', '<Leader>dR', ':FlutterRestart<CR>', { desc = 'Flutter hot restart' })
-vim.keymap.set('n', '<Leader>de', ':FlutterEmulators<CR>', { desc = 'Flutter emulators' })
+vim.keymap.set('n', '<leader>du', ':FlutterRun<CR>', { desc = 'Flutter run' })
+vim.keymap.set('n', '<leader>de', ':FlutterEmulators<CR>', { desc = 'Flutter emulators' })
+vim.keymap.set('n', '<leader>da', ':FlutterOutlineToggle<CR>', { desc = 'Flutter outline' })
