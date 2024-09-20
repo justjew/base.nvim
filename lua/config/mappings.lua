@@ -61,3 +61,9 @@ vim.keymap.set('n', '<leader>wq', '<cmd>wa<cr><cmd>qa<cr>', { desc = 'Write all 
 vim.keymap.set('n', '<leader>du', ':FlutterRun<CR>', { desc = 'Flutter run' })
 vim.keymap.set('n', '<leader>de', ':FlutterEmulators<CR>', { desc = 'Flutter emulators' })
 vim.keymap.set('n', '<leader>da', ':FlutterOutlineToggle<CR>', { desc = 'Flutter outline' })
+
+-- Tabs
+vim.keymap.set('n', '<leader>tp', ':tabprevious<CR>', { desc = 'Go to [p]revious tab' })
+vim.keymap.set('n', '<leader>tn', ':tabnext<CR>', { desc = 'Go to [n]ext tab' })
+vim.keymap.set('n', '<leader>tc', ':tabnew<CR>', { desc = '[c]reate new tab' })
+vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', { desc = '[x] close tab' })

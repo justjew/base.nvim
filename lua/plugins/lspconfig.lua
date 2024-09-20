@@ -65,7 +65,11 @@ return { -- LSP Configuration & Plugins
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
         -- Find references for the word under your cursor.
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('gr', function()
+          require('telescope.builtin').lsp_references {
+            show_line = false,
+          }
+        end, '[G]oto [R]eferences')
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
@@ -101,6 +105,8 @@ return { -- LSP Configuration & Plugins
         --  For example, in C this would take you to the header.
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+        map('g"', require('telescope.builtin').registers, '[G]oto ["] registers')
+
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
         --    See `:help CursorHold` for information about when this is executed
@@ -134,11 +140,11 @@ return { -- LSP Configuration & Plugins
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-          map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-          end, '[T]oggle Inlay [H]ints')
-        end
+        -- if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        --   map('<leader>th', function()
+        --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+        --   end, '[T]oggle Inlay [H]ints')
+        -- end
       end,
     })
 
