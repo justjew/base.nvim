@@ -1,0 +1,36 @@
+return {}
+-- return {
+--   'shortcuts/no-neck-pain.nvim',
+--   version = '*',
+--   -- dependencies = {
+--   --   'nvim-neo-tree/neo-tree.nvim',
+--   -- },
+--   config = function()
+--     require('no-neck-pain').setup {
+--       width = 110,
+--       -- autocmds = {
+--       --   enableOnVimEnter = true,
+--       --   enableOnTabEnter = true,
+--       --   -- skipEnteringNoNeckPainBuffer = true,
+--       -- },
+--       buffers = {
+--         right = {
+--           enabled = false,
+--         },
+--         left = {
+--           enabled = true,
+--           scratchPad = {
+--             enabled = true,
+--             pathToFile = '~/.local/share/nvim/scrath.norg',
+--           },
+--           bo = {
+--             filetype = 'md',
+--           },
+--         },
+--       },
+--     }
+--   end,
+--   keys = {
+--     { '<leader>nn', '<cmd>NoNeckPain<cr>', desc = '[N]oNeckPain toggle' },
+--   },
+-- }

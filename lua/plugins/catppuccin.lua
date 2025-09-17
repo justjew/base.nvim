@@ -45,7 +45,12 @@ return { -- You can easily change to a different colorscheme.
         cmp = true,
         gitsigns = true,
         nvimtree = true,
+        neotree = false,
         treesitter = true,
+        markdown = true,
+        mason = true,
+        which_key = true,
+        lsp_trouble = true,
         notify = false,
         mini = {
           enabled = true,

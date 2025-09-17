@@ -8,7 +8,7 @@ return { -- LSP Configuration & Plugins
 
     -- Useful status updates for LSP.
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-    { 'j-hui/fidget.nvim', opts = {} },
+    -- { 'j-hui/fidget.nvim', opts = {} },
 
     -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -78,7 +78,7 @@ return { -- LSP Configuration & Plugins
         -- Jump to the type of the word under your cursor.
         --  Useful when you're not sure what type a variable is and you want to see
         --  the definition of its *type*, not where it was *defined*.
-        map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+        -- map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
         -- Fuzzy find all the symbols in your current document.
         --  Symbols are things like variables, functions, types, etc.
@@ -196,6 +196,18 @@ return { -- LSP Configuration & Plugins
 
     require('lspconfig').lemminx.setup {}
 
+    require('lspconfig').ruff.setup {
+      init_options = {
+        settings = {
+          -- Ruff language server settings go here
+        },
+      },
+    }
+
+    require('lspconfig').pyright.setup {}
+
+    require('lspconfig').ts_ls.setup {}
+
     -- Ensure the servers and tools above are installed
     --  To check the current status of installed tools and/or manually install
     --  other tools, you can run
@@ -209,12 +221,13 @@ return { -- LSP Configuration & Plugins
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
-      'dart-debug-adapter',
       'lua-language-server',
       'prettier',
       'json-lsp',
       'markdownlint',
     })
+    vim.lsp.enable 'biome'
+
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {

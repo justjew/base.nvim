@@ -27,3 +27,15 @@ vim.opt.rtp:prepend(lazypath)
 --   -- group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
 --   callback = '<cmd>Neotree show<cr>',
 -- })
+
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  callback = function()
+    require('nvim-tree.api').tree.open()
+  end,
+})
+
+vim.api.nvim_create_autocmd('TabNewEntered', {
+  callback = function()
+    require('nvim-tree.api').tree.open()
+  end,
+})

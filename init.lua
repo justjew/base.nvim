@@ -10,7 +10,7 @@ require 'config.mappings'
 -- vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  { import = 'plugins' },
+  { import = vim.g.vscode and 'plugins_vscode' or 'plugins' },
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
