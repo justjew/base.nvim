@@ -50,8 +50,6 @@ return { -- Collection of various small independent plugins/modules
     -- require('mini.completion').setup {}
   end,
   keys = {
-    -- { '<leader>ee', '<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>', desc = '[E]xplore files (current)' },
-    -- { '<leader>eE', '<cmd>lua MiniFiles.open()<cr>', desc = '[E]xplore cwd' },
     { '<S-l>', '<cmd>bnext<cr>', desc = 'Next buffer' },
     { '<S-h>', '<cmd>bprev<cr>', desc = 'Previous buffer' },
     { '<leader>bx', '<cmd>lua MiniBufremove.delete()<cr>', desc = 'Close buffer' },
@@ -61,8 +59,10 @@ return { -- Collection of various small independent plugins/modules
       function()
         local bufs = vim.api.nvim_list_bufs()
         local current_buf = vim.api.nvim_get_current_buf()
+
         for _, i in ipairs(bufs) do
-          if i ~= current_buf then
+          local buf_ft = vim.api.nvim_buf_get_option(i, 'filetype')
+          if i ~= current_buf and buf_ft ~= 'NvimTree' then
             vim.api.nvim_buf_delete(i, {})
           end
         end
