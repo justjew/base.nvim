@@ -1,7 +1,7 @@
 return {
   'folke/trouble.nvim',
   opts = {
-    indent_guides = false,
+    -- indent_guides = false,
   },
   cmd = 'Trouble',
   dependencies = { 'nvim-tree/nvim-web-devicons' },

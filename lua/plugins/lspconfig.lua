@@ -12,7 +12,18 @@ return { -- LSP Configuration & Plugins
 
     -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
-    { 'folke/neodev.nvim', opts = {} },
+    -- { 'folke/neodev.nvim', opts = {} },
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua', -- only load on lua files
+      opts = {
+        library = {
+          -- See the configuration section for more details
+          -- Load luvit types when the `vim.uv` word is found
+          { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        },
+      },
+    },
   },
   config = function()
     -- Brief aside: **What is LSP?**
@@ -99,7 +110,11 @@ return { -- LSP Configuration & Plugins
 
         -- Opens a popup that displays documentation about the word under your cursor
         --  See `:help K` for why this keymap.
-        map('K', vim.lsp.buf.hover, 'Hover Documentation')
+        map('K', function()
+          vim.lsp.buf.hover {
+            border = 'solid',
+          }
+        end, 'Hover Documentation')
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
@@ -178,35 +193,64 @@ return { -- LSP Configuration & Plugins
       -- tsserver = {},
       -- dartls = {},
 
-      lua_ls = {
-        -- cmd = {...},
-        -- filetypes = { ...},
-        -- capabilities = {},
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
-            },
-            -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-            -- diagnostics = { disable = { 'missing-fields' } },
-          },
-        },
-      },
+      -- lua_ls = {
+      --   -- cmd = {...},
+      --   -- filetypes = { ...},
+      --   -- capabilities = {},
+      --   settings = {
+      --     Lua = {
+      --       runtime = {
+      --         version = 'LuaJIT',
+      --         path = { 'lua/?.lua', 'lua/?/init.lua' },
+      --       },
+      --       diagnostics = {
+      --         globals = { 'vim' },
+      --       },
+      --       workspace = {
+      --         library = { vim.env.VIMRUNTIME }, -- это ключевой момент
+      --         checkThirdParty = false,
+      --       },
+      --       telemetry = { enable = false },
+      --     },
+      --   },
+      -- },
     }
 
-    require('lspconfig').lemminx.setup {}
+    vim.lsp.enable 'lua_ls'
 
-    require('lspconfig').ruff.setup {
-      init_options = {
-        settings = {
-          -- Ruff language server settings go here
-        },
-      },
-    }
+    vim.lsp.enable 'lemminx'
 
-    require('lspconfig').pyright.setup {}
+    vim.lsp.enable 'pyright'
 
-    require('lspconfig').ts_ls.setup {}
+    vim.lsp.enable 'ts_ls'
+
+    vim.lsp.enable 'ruff'
+
+    vim.lsp.enable 'gopls'
+
+    vim.lsp.enable 'rust_analyzer'
+
+    -- lspconfig.lua_ls.setup {
+    --   settings = {
+    --     Lua = {
+    --       runtime = {
+    --         version = 'LuaJIT',
+    --       },
+    --       diagnostics = {
+    --         globals = { 'vim' },
+    --       },
+    --       workspace = {
+    --         checkThirdParty = false,
+    --         -- ключевое: дать LSP знания о runtime Neovim и вашем конфиге
+    --         library = {
+    --           vim.env.VIMRUNTIME,
+    --           vim.fn.stdpath 'config',
+    --         },
+    --       },
+    --       telemetry = { enable = false },
+    --     },
+    --   },
+    -- }
 
     -- Ensure the servers and tools above are installed
     --  To check the current status of installed tools and/or manually install
@@ -238,7 +282,7 @@ return { -- LSP Configuration & Plugins
           -- by the server configuration above. Useful when disabling
           -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
+          vim.lsp.config[server_name].setup(server)
         end,
       },
     }

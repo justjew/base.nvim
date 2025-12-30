@@ -28,6 +28,11 @@ return {
     local daprepl = require 'dap.repl'
     local dapui = require 'dapui'
 
+    dap.adapters.codelldb = {
+      type = 'executable',
+      command = '/Users/justjew/.local/share/nvim/mason/bin/codelldb',
+    }
+
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
@@ -58,6 +63,7 @@ return {
 
     vim.keymap.set('n', '<leader>di', dapui.eval, { desc = 'Debug: Evaluate expression' })
     vim.keymap.set('v', '<leader>di', dapui.eval, { desc = 'Debug: Evaluate expression' })
+    vim.keymap.set('n', '<leader>du', dapui.open, { desc = 'Debug: Open DAP UI' })
 
     vim.keymap.set('n', '<leader>dr', function()
       daprepl.execute '.hot-reload'

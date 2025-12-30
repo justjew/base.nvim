@@ -1,6 +1,6 @@
 return {
   'akinsho/flutter-tools.nvim',
-  event = 'VeryLazy',
+  -- event = 'VeryLazy',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'stevearc/dressing.nvim', -- optional for vim.ui.select
@@ -49,6 +49,6 @@ return {
         end,
       },
     }
-    require('flutter-tools.lsp').attach()
+    -- require('flutter-tools.lsp').attach()
   end,
 }

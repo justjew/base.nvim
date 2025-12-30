@@ -54,9 +54,12 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>')
 vim.keymap.set('n', '<leader>go', ':Neotree float git_status<CR>')
 
+-- Movements
+vim.keymap.set('n', 'g0', '^', { desc = 'Move to start of code line' })
+
 -- Movings
--- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selected line down' })
--- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selected line down' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move selected line down' })
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selected line down' })
 
 -- Pane resize
 vim.keymap.set('n', '<S-Right>', ':vertical resize +2<CR>')
@@ -74,9 +77,9 @@ vim.keymap.set('n', '<leader>wa', '<cmd>wa<cr>', { desc = 'Write all' })
 vim.keymap.set('n', '<leader>wq', '<cmd>wa<cr><cmd>qa<cr>', { desc = 'Write all and quit' })
 
 -- Flutter
-vim.keymap.set('n', '<leader>du', ':FlutterRun<CR>', { desc = 'Flutter run' })
+-- vim.keymap.set('n', '<leader>du', ':FlutterRun<CR>', { desc = 'Flutter run' })
 vim.keymap.set('n', '<leader>de', ':FlutterEmulators<CR>', { desc = 'Flutter emulators' })
-vim.keymap.set('n', '<leader>da', ':FlutterOutlineToggle<CR>', { desc = 'Flutter outline' })
+-- vim.keymap.set('n', '<leader>da', ':FlutterOutlineToggle<CR>', { desc = 'Flutter outline' })
 
 -- Tabs
 vim.keymap.set('n', '<leader>tp', ':tabprevious<CR>', { desc = 'Go to [p]revious tab' })
